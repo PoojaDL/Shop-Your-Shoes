@@ -6,28 +6,27 @@ const DisplayItems = (props) => {
   const ctx = useContext(CartContext);
 
   const buttonValue = (value) => {
-    ctx.updateItem({
-      id: value[2].id,
-      type: value[1],
-      qty: value[0],
-    });
+    if (value[0] >= 1) {
+      ctx.addItem({
+        key: value[2].id,
+        id: value[2].id,
+        itemName: value[2].itemName,
+        description: value[2].description,
+        price: value[2].price,
+        buttonClick: [
+          {
+            type: value[1],
+            qty: value[0],
+          },
+        ],
+      });
+    }
 
-    ctx.addItem({
-      id: value[2].id,
-      itemName: value[2].itemName,
-      description: value[2].description,
-      price: value[2].price,
-      sizes: {
-        large: value[2].sizes.large,
-        medium: value[2].sizes.medium,
-        small: value[2].sizes.small,
-      },
-    });
-    console.log(ctx);
+    props.onchange(true);
   };
 
   const itemsList = props.items.map((item) => (
-    <li>
+    <li key={item.id}>
       {`${item.itemName} - ${item.description} - ${item.price}`}
       <AddButtons itemSent={item} onclick={buttonValue} />
     </li>

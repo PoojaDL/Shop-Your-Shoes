@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import axios from "axios";
 
 const UserForm = (props) => {
   const nameInput = useRef();
@@ -25,6 +26,13 @@ const UserForm = (props) => {
     };
 
     props.onAdd(addedItems);
+    axios
+      .post(
+        "https://crudcrud.com/api/a0641fa474184d52a977fd233b46a83b/Product",
+        addedItems
+      )
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
   };
 
   return (

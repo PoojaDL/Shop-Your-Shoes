@@ -5,25 +5,25 @@ const CartProvider = (props) => {
   const [cart, setCart] = useState([]);
 
   const onAdding = (item) => {
-    const isOld = cart.findIndex((curitem) => {
-      return curitem.id === item.id;
-    });
-    if (isOld) {
+    const idx = cart.findIndex((elem) => elem.id === item.id);
+    let existingItem = cart[idx];
+    if (existingItem) {
+      let updatedItem = {
+        ...existingItem,
+        buttonClick: [...existingItem.buttonClick, ...item.buttonClick],
+      };
+      cart[idx] = updatedItem;
     } else {
-      setCart((prevState) => [...prevState, item]);
+      setCart((prevItems) => {
+        return [...prevItems, item];
+      });
     }
   };
 
-  const onUpdating = (sizes) => {
-    console.log(sizes);
-    console.log();
-  };
-
   const cartItem = {
-    items: cart.items,
+    items: cart,
     totalAmount: cart.totalAmount,
     addItem: onAdding,
-    updateItem: onUpdating,
   };
 
   return (
